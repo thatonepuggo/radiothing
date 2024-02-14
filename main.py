@@ -55,6 +55,10 @@ async def play(ctx: Context, *, args: str):
     source, channel_id = search_one(args)
     channel = ctx.message.author.voice.channel
 
+    if not source:
+        await ctx.reply("no results")
+        return
+    
     if not channel:
         await ctx.reply("please join a voice channel")
         return
