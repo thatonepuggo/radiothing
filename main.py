@@ -65,7 +65,7 @@ async def play(ctx: Context, *, args: str):
         channels[channel.id] = {"vc": vc, "author": ctx.author.id, "volume": 1}
         await vc_play(ctx, vc, source, channel_id)
     else:
-        vc: discord.VoiceClient = channels[channel.id][0]
+        vc: discord.VoiceClient = channels[channel.id]["vc"]
         vc.stop()
         await vc_play(ctx, vc, source, channel_id)
 
