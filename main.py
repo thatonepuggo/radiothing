@@ -44,7 +44,7 @@ def search_one(query):
     return source, pick_id
 
 def perm_check(ctx: Context, runner):
-    return runner == ctx.author.id and ctx.channel.permissions_for(ctx.author).manage_channels
+    return runner == ctx.author.id or ctx.channel.permissions_for(ctx.author).manage_channels
 
 async def vc_play(ctx: Context, vc: discord.VoiceClient, source, channel_id):
     vc.play(FFmpegPCMAudio(api.listen_url(channel_id)))
@@ -66,6 +66,7 @@ async def play(ctx: Context, *, args: str):
         await vc_play(ctx, vc, source, channel_id)
     else:
         vc: discord.VoiceClient = channels[channel.id]["vc"]
+        channels[channel.id]["author"] = ctx.author.id
         vc.stop()
         await vc_play(ctx, vc, source, channel_id)
 
@@ -83,7 +84,7 @@ async def stop(ctx: Context):
 
     vc: discord.VoiceClient = channels[channel.id]["vc"]
     runner = channels[channel.id]["author"]
-
+    
     if not perm_check(ctx, runner):
         await ctx.reply("you do not have permissions to stop the radio.")
         return
