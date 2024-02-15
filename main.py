@@ -48,7 +48,7 @@ def perm_check(ctx: Context, runner):
 
 async def vc_play(ctx: Context, vc: discord.VoiceClient, source, channel_id):
     vc.play(FFmpegPCMAudio(api.listen_url(channel_id)))
-    await ctx.reply(f"now playing: {source['title']} from station {source['subtitle']} (please wait)")
+    await ctx.reply(f"now playing: {source['title']} from station {source['subtitle'] if source['subtitle'] else ':person_shrugging:'} (please wait)")
 
 @client.command(description="play a radio station.")
 async def play(ctx: Context, *, args: str):
