@@ -47,6 +47,8 @@ def perm_check(ctx: Context, runner):
     return runner == ctx.author.id or ctx.channel.permissions_for(ctx.author).manage_channels
 
 async def vc_play(ctx: Context, vc: discord.VoiceClient, source, channel_id):
+    if not vc.is_connected():
+        vc.channel.connect()
     vc.play(FFmpegPCMAudio(api.listen_url(channel_id)))
     await ctx.reply(f"now playing: {source['title']} from station {source['subtitle'] if 'subtitle' in source else ':person_shrugging:'} (please wait)")
 
