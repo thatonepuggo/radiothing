@@ -70,11 +70,11 @@ async def play(ctx: Context, *, args: str):
     if channel.id not in channels.keys():
         vc = await channel.connect()
         channels[channel.id] = {"vc": vc, "author": ctx.author.id, "volume": 1}
-        await vc_play(ctx, vc, source, channel_id)
     else:
         vc: discord.VoiceClient = channels[channel.id]["vc"]
         channels[channel.id]["author"] = ctx.author.id
         vc.stop()
+    await vc_play(ctx, vc, source, channel_id)
 
 @client.command(description="stop the radio.")
 async def stop(ctx: Context):
